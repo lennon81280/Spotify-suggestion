@@ -1,4 +1,4 @@
-# Telegram Music Suggester
+# Spotify Music Suggester
 
 Telegram Music Suggester is a Python script that finds and recommends music from a Telegram channel based on genres. It uses the Telegram API, Spotify API (via Spotipy library), and spotdl to download and recommend songs. The script leverages asynchronous programming with asyncio to efficiently fetch and process data from both APIs.
 
