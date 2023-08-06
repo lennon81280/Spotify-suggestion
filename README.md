@@ -1,4 +1,4 @@
-![image](https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion/assets/13959550/90d30785-cca2-475a-9c80-43e00ad058f4)# Telegram Music Suggester
+# Telegram Music Suggester
 
 Telegram Music Suggester is a Python script that finds and recommends music from a Telegram channel based on genres. It uses the Telegram API, Spotify API (via Spotipy library), and spotdl to download and recommend songs. The script leverages asynchronous programming with asyncio to efficiently fetch and process data from both APIs.
 
@@ -46,6 +46,9 @@ Album: The Eminem Show
 Release Date: 2002-05-26
 Genres: #detroit_hip_hop, #hip_hop, #rap, #dance
 }
+
+![image](https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion/assets/13959550/90d30785-cca2-475a-9c80-43e00ad058f4)
+
 ## Installation
 
 1. Clone this repository to your local machine:
