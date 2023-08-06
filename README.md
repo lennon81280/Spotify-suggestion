@@ -45,8 +45,8 @@ I should mention that your music in music channel must be in this format :
 ## Installation
 
 1. Clone this repository to your local machine:
-   git clone https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion.git
-   cd Telegram-Suggester-By-Spotify-Suggetion
+   git clone https://github.com/lennon81280/Spotify-suggestion.git
+   cd Spotify-suggestion
 
     Install the required Python libraries using pip.
 
