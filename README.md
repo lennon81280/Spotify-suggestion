@@ -39,13 +39,6 @@ Before using the script, make sure you have the following requirements installed
 Additionally, you will need to have the necessary API credentials for both the Telegram and Spotify APIs.
 
 I should mention that your music in music channel must be in this format :
-Example :{
-Track Name: Superman
-Artist: Eminem
-Album: The Eminem Show
-Release Date: 2002-05-26
-Genres: #detroit_hip_hop, #hip_hop, #rap, #dance
-}
 
 ![image](https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion/assets/13959550/90d30785-cca2-475a-9c80-43e00ad058f4)
 
