@@ -39,6 +39,7 @@ Before using the script, make sure you have the following requirements installed
 Additionally, you will need to have the necessary API credentials for both the Telegram and Spotify APIs.
 
 I should mention that your music in music channel must be in this format : 
+
 ![image](https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion/assets/13959550/0a5ecb56-72ef-494b-893c-f9591d9ac955)
 
 ## Installation
