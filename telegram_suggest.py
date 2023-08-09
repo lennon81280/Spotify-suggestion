@@ -8,8 +8,9 @@ import logging
 import subprocess
 import urllib.parse
 
+dotenv_path="/opt/telegram_suggest/.env"
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(dotenv_path)
 
 API_ID = int(os.getenv('API_ID'))
 API_HASH = os.getenv('API_HASH')
