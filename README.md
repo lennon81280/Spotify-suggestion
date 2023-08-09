@@ -40,7 +40,8 @@ Additionally, you will need to have the necessary API credentials for both the T
 
 I should mention that your music in music channel must be in this format :
 
-![image](https://github.com/lennon81280/Telegram-Suggester-By-Spotify-Suggetion/assets/13959550/90d30785-cca2-475a-9c80-43e00ad058f4)
+![image](https://github.com/lennon81280/Spotify-suggestion/assets/13959550/84db55b2-4499-4e82-bfe5-f2436d9b9ec8)
+
 
 ## Installation
 
@@ -48,7 +49,7 @@ I should mention that your music in music channel must be in this format :
    git clone https://github.com/lennon81280/Spotify-suggestion.git
    cd Spotify-suggestion
 
-    Install the required Python libraries using pip.
+Install the required Python libraries using pip.
 
 Usage
 
@@ -70,12 +71,10 @@ To use the Telegram Music Suggester script:
 Run the script:
 
     python telegram_suggest.py
-    
-    The script will fetch matching songs from the specified Telegram channel, search for each song on Spotify, and recommend songs based on certain criteria. It will then download the recommended songs using spotdl and send them back to the Telegram channel with metadata.
+   
+The script will fetch matching songs from the specified Telegram channel, search for each song on Spotify, and recommend songs based on certain criteria. It will then download the recommended songs using spotdl and send them back to the Telegram channel with metadata.
 
-Configuration
+## Configurations
 
 You can customize certain parameters in the script to suit your preferences. For example, you can adjust the minimum matching songs required, retry count, and other settings in the main() function.
 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
