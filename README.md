@@ -53,7 +53,7 @@ I should mention that your music in music channel must be in this format :
 Usage
 
 To use the Telegram Music Suggester script:
-
+    Fill dotenv_path in python file with .env full absolute path then
     Set up your environment variables:
     Fill the .env file in the root directory of the project.
     Add the following environment variables to the .env file:
