@@ -214,7 +214,7 @@ async def download_song(client, sp, recommendation_url, artist_name, track_name,
 
                 os.remove(file_path)
                 logger.info(f"File '{filename}' sent and removed successfully.")
-                
+
                 # Break the loop after successfully sending the file
                 break
 
@@ -279,13 +279,36 @@ async def main():
     min_matching_songs = 2
 
     matching_songs = []
-    duplicate_counter = 0  # Initialize duplicate counter
-
+    
     while len(matching_songs) < min_matching_songs:
         matching_songs = await get_matching_songs()
         if len(matching_songs) < min_matching_songs:
             logger.warning(f"Matching songs not sufficient. Retrying...")
             await asyncio.sleep(1)
+
+    duplicate_counter = 0
+
+    while len(matching_songs) < min_matching_songs:
+        matching_songs = await get_matching_songs()
+        if len(matching_songs) < min_matching_songs:
+            logger.warning("Matching songs not sufficient. Retrying...")
+            await asyncio.sleep(1)
+
+        # Check if matching_songs is empty after get_matching_songs
+        if not matching_songs:
+            duplicate_counter = 0
+        else:
+            # Check if the songs are duplicates
+            are_duplicates = await check_for_duplicates(matching_songs)
+            if are_duplicates:
+                duplicate_counter += 1
+                if duplicate_counter >= 3:
+                    logger.warning("Reached maximum duplicate count. Starting over with get_matching_songs.")
+                    duplicate_counter = 0
+                    continue  # Start over with get_matching_songs
+            else:
+                duplicate_counter = 0  # Reset counter
+
 
         retry_count -= 1
         if retry_count <= 0:
@@ -349,11 +372,12 @@ async def main():
 
             else:
                 logger.info("No recommendation found.")
-    
+
     # Disconnect the client after sending the file
     await client.disconnect()
 
 # Run the main function
 if __name__ == '__main__':
     asyncio.run(main())
+
 
