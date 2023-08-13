@@ -279,55 +279,30 @@ async def main():
     loop = asyncio.get_event_loop()
     retry_count = 5
     min_matching_songs = 2
+    duplicate_counter = 0  # Initialize the duplicate counter
 
     matching_songs = []
-    
-    while len(matching_songs) < min_matching_songs:
-        matching_songs = await get_matching_songs()
-        if len(matching_songs) < min_matching_songs:
-            logger.warning(f"Matching songs not sufficient. Retrying...")
-            await asyncio.sleep(1)
-
-    duplicate_counter = 0
 
     while len(matching_songs) < min_matching_songs:
         matching_songs = await get_matching_songs()
-        if len(matching_songs) < min_matching_songs:
-            logger.warning("Matching songs not sufficient. Retrying...")
-            await asyncio.sleep(1)
-
-        # Check if matching_songs is empty after get_matching_songs
+        
         if not matching_songs:
             duplicate_counter = 0
         else:
-            # Check if the songs are duplicates
-            are_duplicates = await check_for_duplicates(matching_songs)
-            if are_duplicates:
-                duplicate_counter += 1
-                if duplicate_counter >= 3:
-                    logger.warning("Reached maximum duplicate count. Starting over with get_matching_songs.")
-                    duplicate_counter = 0
-                    continue  # Start over with get_matching_songs
-            else:
-                duplicate_counter = 0  # Reset counter
+            duplicate_counter += 1
 
+        if duplicate_counter >= 3:
+            logger.warning("Reached maximum duplicate count. Starting over with get_matching_songs.")
+            duplicate_counter = 0
+        elif len(matching_songs) < min_matching_songs:
+            logger.warning(f"Matching songs not sufficient. Retrying...")
+            await asyncio.sleep(1)
 
         retry_count -= 1
         if retry_count <= 0:
             logger.error("Insufficient matching songs after multiple attempts. Exiting.")
             return
-
-        # If matching_songs is empty, it means get_matching_songs returned no songs due to duplicates.
-        # In that case, reset the duplicate counter and start over with get_matching_songs.
-        if not matching_songs:
-            duplicate_counter = 0
-
-        if duplicate_counter >= 3:
-            logger.warning("Reached maximum duplicate count. Starting over with get_matching_songs.")
-            duplicate_counter = 0
-        else:
-            duplicate_counter += 1
-
+            
     # Initialize the Spotipy client
     auth_manager = SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)
     sp = Spotify(auth_manager=auth_manager)
@@ -381,5 +356,6 @@ async def main():
 # Run the main function
 if __name__ == '__main__':
     asyncio.run(main())
+
 
 
