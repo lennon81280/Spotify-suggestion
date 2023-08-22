@@ -212,7 +212,8 @@ async def download_song(client, sp, recommendation_url, artist_name, track_name,
                     )
 
                 # Send the file to the Telegram channel with the caption
-                await send_to_telegram(client, file_path, caption)
+                #await send_to_telegram(client, file_path, caption)
+                await send_to_decision_channel(client, file_path, caption)
 
                 os.remove(file_path)
                 logger.info(f"File '{filename}' sent and removed successfully.")
@@ -274,6 +275,29 @@ async def send_to_telegram(client, file_path, filecaption):
         await client.disconnect()
 
 
+
+async def send_to_decision_channel(client, file_path, filecaption):
+    try:
+        decision_channel_username = os.getenv('DECISION_CHANNEL_USERNAME')
+        await client.start()
+
+        # Send the file to the decision channel
+        entity = await client.get_entity(decision_channel_username)
+        await client.send_file(entity, file=file_path, caption=filecaption)
+
+        logger.info(f"File sent successfully to {decision_channel_username}.")
+
+    except Exception as e:
+        logger.error(f"Error while sending file to decision channel: {e}")
+
+    finally:
+        await client.disconnect()
+
+
+
+
+
+
 # Main function to run the script
 async def main():
     loop = asyncio.get_event_loop()
@@ -285,24 +309,17 @@ async def main():
 
     while len(matching_songs) < min_matching_songs:
         matching_songs = await get_matching_songs()
-        
-        if not matching_songs:
-            duplicate_counter = 0
-        else:
-            duplicate_counter += 1
 
-        if duplicate_counter >= 3:
-            logger.warning("Reached maximum duplicate count. Starting over with get_matching_songs.")
-            duplicate_counter = 0
-        elif len(matching_songs) < min_matching_songs:
+        if len(matching_songs) < min_matching_songs:
             logger.warning(f"Matching songs not sufficient. Retrying...")
+            matching_songs = await get_matching_songs()
             await asyncio.sleep(1)
 
         retry_count -= 1
         if retry_count <= 0:
             logger.error("Insufficient matching songs after multiple attempts. Exiting.")
             return
-            
+
     # Initialize the Spotipy client
     auth_manager = SpotifyClientCredentials(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET)
     sp = Spotify(auth_manager=auth_manager)
@@ -334,6 +351,7 @@ async def main():
             if recommendation_url:
                 logger.info(f"Recommendation Track: {recommendation_track_name} - Artist: {recommendation_artist_name} - URL: {recommendation_url}")
 
+
                 # Create formatted caption with metadata
                 caption = (
                     f"Track Name: {metadata['track_name']}\n"
@@ -343,7 +361,9 @@ async def main():
                     f"Genres: {' '.join(metadata['genres'])}\n"
                 )
 
-                await download_song(client, sp, recommendation_url, artist_name, track_name, album_name, release_date)
+                #await download_song(client, sp, recommendation_url, artist_name, track_name, album_name, release_date)
+                await download_song(client, sp, recommendation_url, recommendation_artist_name, recommendation_track_name, album_name, release_date)
+
                 # Break the loop after successfully sending the file
                 break
 
@@ -356,6 +376,5 @@ async def main():
 # Run the main function
 if __name__ == '__main__':
     asyncio.run(main())
-
 
 
